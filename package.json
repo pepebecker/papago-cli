@@ -18,7 +18,8 @@
     "url": "https://github.com/pepebecker/papago-cli.git"
   },
   "bin": {
-    "papago": "index.js"
+    "papago": "index.js",
+    "파파고": "index.js"
   },
   "license": "ISC",
   "author": "Pepe Becker <mail@pepebecker.com> (https://pepe.asia)",
