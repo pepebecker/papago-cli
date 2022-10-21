@@ -1,7 +1,5 @@
 # Papago CLI
 
-[![dependency status](https://img.shields.io/david/pepebecker/papago-cli.svg)](https://david-dm.org/pepebecker/papago-cli)
-[![dev dependency status](https://img.shields.io/david/dev/pepebecker/papago-cli.svg)](https://david-dm.org/pepebecker/papago-cli#info=devDependencies)
 [![ISC-licensed](https://img.shields.io/github/license/pepebecker/papago-cli.svg)](https://choosealicense.com/licenses/isc/)
 
 ## Install
