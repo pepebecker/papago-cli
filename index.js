@@ -2,6 +2,7 @@
 
 import readline from 'readline';
 import meow from 'meow';
+import { resolve } from 'dns';
 import { Papago, languages } from 'papago';
 
 const papago = new Papago({
@@ -22,7 +23,8 @@ const autoCorrect = (lang) => {
   return lang;
 };
 
-const koRegex = /[\uac00-\ud7af]|[\u1100-\u11ff]|[\u3130-\u318f]|[\ua960-\ua97f]|[\ud7b0-\ud7ff]/;
+const koRegex =
+  /[\uac00-\ud7af]|[\u1100-\u11ff]|[\u3130-\u318f]|[\ua960-\ua97f]|[\ud7b0-\ud7ff]/;
 
 const main = async () => {
   const cli = meow(
@@ -80,7 +82,7 @@ const main = async () => {
 
     let source = autoCorrect(cli.flags.source ?? null);
     let target = autoCorrect(cli.flags.target ?? null);
-    
+
     if (source === 'auto' || !source) {
       source = koRegex.test(text) ? 'ko' : source;
     }
@@ -94,10 +96,9 @@ const main = async () => {
       source: source ?? (target === 'en' ? 'ko' : 'en'),
       target: target ?? (source === 'en' ? 'ko' : 'en'),
       honorific: cli.flags.formal ?? false,
-    }
-  }
+    };
+  };
 
-  
   if (cli.input.length > 0) {
     const { text, source, target, honorific } = pasrse(cli.input.join(' '));
     const result = await papago.translate(text, { source, target, honorific });
@@ -122,6 +123,14 @@ const main = async () => {
   rl.close();
 };
 
-main().catch((error) => {
-  console.error('Error:', error?.message || error);
+main().catch(async (error) => {
+  const url = 'openapi.naver.com'
+  resolve(url, (err) => {
+    if (err) {
+      console.error(`Could not resolve ${url}.\nPlease check your network connection.`);
+    } else {
+      console.error(error.message ? `Error: ${error.message}` : error);
+    }
+    process.exit(1);
+  });
 });
